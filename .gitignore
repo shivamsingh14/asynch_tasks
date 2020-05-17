@@ -1,0 +1,5 @@
+*.pyc
+*.log
+logs/
+.vscode/
+.doubts.txt

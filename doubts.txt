@@ -1,0 +1,11 @@
+1. what if same question is asked twice, will two pdfs be sent or if a used asks 2 different questions within 5 minutes, one pdf containing both list will be sent or two different pdfs for this too.
+2. how to send pdf, mail?
+
+
+#TODO:
+
+1. set up celery (done)
+2. write an API accepting json and scheduling the tasks. (DONE)
+3. receiving data from celery result backend
+4. creating a sample pdf. (DONE)
+5. CHANGE DB CREDENTIALS 

@@ -1,22 +1,45 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-
 from celery.task.control import revoke
 
-from doubtnut.report.tasks import task1, task2
+from doubtnut.report.tasks import send_mail
+from doubtnut import utils
+from doubtnut.app_logger import AppLogger
+from doubtnut.report.serializers import ReportSerializers
 
 from datetime import datetime
+
+logger = AppLogger(tag="Views")
 
 class TestView(APIView):
 
     def post(self, request):
 
-        r = task1.apply_async((1, 4), task_id="user_id_1_question_id_2", countdown=60)
-        r1 = task2.apply_async((1, 4), task_id="user_id_1_question_id_3")
-        revoke("user_id_1_question_id_2", terminate=True)
-        print ("aaaaaaa")
-        print (r)
-        print (r.ready())
-        print (r.get())
-        return Response("hieeeee", status=status.HTTP_200_OK)
+        logger.info("Request data: {}".format(request.data))
+        s = ReportSerializers(data=request.data)
+        s.is_valid(raise_exception=True)
+
+        user_email_id = s.validated_data.get("email_id")
+        questions_list = s.validated_data.get("similar_questions")
+
+        countdown = utils.CONSTANTS.CELERY_TIMEOUT
+
+        task_values = utils.RedisUtils.get_cache(user_email_id)
+        if (task_values is not None):
+            task_values_dict = utils.JsonUtils.convert_to_dict(task_values)
+            task_id = task_values_dict['task_id']
+            logger.info("revoking task with task id: {}".format(task_id))
+            revoke(task_id, terminate=True)
+            logger.info("Deleting key: {} with value: {}".format(user_email_id, utils.RedisUtils.get_cache(user_email_id)))
+            utils.RedisUtils.delete_cache(user_email_id)
+
+        task_result = send_mail.apply_async((str(questions_list), user_email_id), countdown=countdown)
+        logger.info("result dictionary: {}".format(vars(task_result)))
+        logger.info("Task's task id: {}".format(task_result.id))
+        task_id = task_result.id
+        task_data = {"task_id": task_id, "data": questions_list}
+        utils.RedisUtils.set_cache_with_ttl(user_email_id, countdown, utils.JsonUtils.convert_to_json(task_data))
+    
+        response = {"message": "Mail sent successfully"}
+        return Response(response, status=status.HTTP_200_OK)

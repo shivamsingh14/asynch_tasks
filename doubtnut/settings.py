@@ -53,7 +53,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME' : 'report',
-        'USER': 'shivam',
+        'USER': 'ovunque',
         'PASSWORD': 'qazxc1234',
         'HOST': '',
         'PORT': '3306',
@@ -106,3 +106,12 @@ CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = 'Asia/Calcutta'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'doubtnut.careers@gmail.com'
+EMAIL_HOST_PASSWORD = 'Qwerty@123'
+
+from .logging import *
