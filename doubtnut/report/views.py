@@ -12,7 +12,7 @@ from datetime import datetime
 
 logger = AppLogger(tag="Views")
 
-class TestView(APIView):
+class SummaryAPI(APIView):
 
     def post(self, request):
 

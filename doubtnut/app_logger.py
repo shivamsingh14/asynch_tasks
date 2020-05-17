@@ -18,15 +18,3 @@ class AppLogger(object):
 			self.logger.error("[%s] %s" % (self.tag, message))
 		else:
 			self.logger.error(message)
-
-	def warn(self, message, tag=None):
-		if self.tag:
-			self.logger.warn("[%s] %s" % (self.tag, message))
-		else:
-			self.logger.warn(message)
-
-	def debug(self, message, tag=None):
-		if self.tag:
-			self.logger.debug("[%s] %s" % (self.tag, message))
-		else:
-			self.logger.debug(message)

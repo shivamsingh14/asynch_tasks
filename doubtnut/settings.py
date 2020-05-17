@@ -49,19 +49,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'doubtnut.wsgi.application'
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME' : 'report',
-        'USER': 'ovunque',
-        'PASSWORD': 'qazxc1234',
-        'HOST': '',
-        'PORT': '3306',
-        'TIME_ZONE': 'Asia/Kolkata'
-    },
-
-}
-
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
@@ -72,21 +59,6 @@ CACHES = {
     }
 }
 
-
-AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
-]
 
 LANGUAGE_CODE = 'en-us'
 
