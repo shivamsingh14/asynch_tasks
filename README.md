@@ -6,18 +6,21 @@ This project deals in sending list of similar asked questions to a user based on
 
 - python3.7 or higher
 
+## Development setup (for Ubuntu):
 
-Use the package manager [pip](https://pip.pypa.io/en/stable/) to install the dependencies.
+1. Open Terminal :
+```Ctrl + Alt + T```
+- ```sudo apt-get install python-pip```
+2. Clone Project to your directory\
 
-```bash
-pip install -r requirements.txt
-```
-
-## Development setup:
-
+- ```git clone https://github.com/shivamsingh14/asynch_tasks.git```
+- ```cd asynch_tasks```
 - Check python version on your development system ```python --version or python3 --version```
-- Create virtual environment: ```python3 -m venv <path>```
+3.  Setup environment:
+ -  create an environment ```python3 -m venv <path>```
 - Activate virtual environment: ``` source <path_to_virtual_environment>/bin/activate ```
-- Install requirements:  ``` pip install -r requirements.dev.txt```
-- Run server ``` python3 manage.py runserver```
-
+- Install requirements. Use the package manager [pip](https://pip.pypa.io/en/stable/) to install the dependencies.  ``` pip install -r requirements.txt```
+## Run Project
+Open two terminals and run the following commands
+-  ``` python3 manage.py runserver```
+- ```celery -A doubtnut worker --loglevel=info```
