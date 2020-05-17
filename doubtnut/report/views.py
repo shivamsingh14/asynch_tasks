@@ -3,10 +3,10 @@ from rest_framework.response import Response
 from rest_framework import status
 from celery.task.control import revoke
 
-from doubtnut.report.tasks import send_mail
+from doubtnut.report.tasks import send_mail_task
 from doubtnut import utils
 from doubtnut.app_logger import AppLogger
-from doubtnut.report.serializers import ReportSerializers
+from doubtnut.report.serializers import ReportSerializer
 
 from datetime import datetime
 
@@ -17,7 +17,7 @@ class TestView(APIView):
     def post(self, request):
 
         logger.info("Request data: {}".format(request.data))
-        s = ReportSerializers(data=request.data)
+        s = ReportSerializer(data=request.data)
         s.is_valid(raise_exception=True)
 
         user_email_id = s.validated_data.get("email_id")
@@ -34,8 +34,7 @@ class TestView(APIView):
             logger.info("Deleting key: {} with value: {}".format(user_email_id, utils.RedisUtils.get_cache(user_email_id)))
             utils.RedisUtils.delete_cache(user_email_id)
 
-        task_result = send_mail.apply_async((str(questions_list), user_email_id), countdown=countdown)
-        logger.info("result dictionary: {}".format(vars(task_result)))
+        task_result = send_mail_task.apply_async((str(questions_list), user_email_id), countdown=countdown)
         logger.info("Task's task id: {}".format(task_result.id))
         task_id = task_result.id
         task_data = {"task_id": task_id, "data": questions_list}

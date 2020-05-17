@@ -2,7 +2,7 @@ from rest_framework import serializers
 
 from doubtnut.utils import Config
 
-class ReportSerializers(serializers.BaseSerializer):
+class ReportSerializer(serializers.BaseSerializer):
 
 	def to_internal_value(self, data):
 

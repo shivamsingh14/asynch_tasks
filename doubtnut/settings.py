@@ -111,7 +111,11 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'doubtnut.careers@gmail.com'
+EMAIL_HOST_USER = 'doubt.test.nut@gmail.com'
 EMAIL_HOST_PASSWORD = 'Qwerty@123'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads')
+MEDIA_URL = './uploads/'
+
 
 from .logging import *
